@@ -4,128 +4,119 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Fragment;
-import android.content.Intent;
+import com.example.imconnect.R;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import android.app.ListActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.os.Build;
 
-public class MainActivity extends Activity {
+
+public class MainActivity extends ListActivity {
 	
-	private class CallAPI extends AsyncTask<String, String, String> {
-		 protected String doInBackground(String domain) {
-     
-        
-            
-            String resultToDisplay = "";
-      
-            InputStream in = null;
-      
-            // HTTP Get
-            try {
-            	
-                URL url = new URL("https://public-api.wordpress.com/rest/v1/sites/" + domain + "/posts/");
-      
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-      
-                in = new BufferedInputStream(urlConnection.getInputStream());
-      
-             } catch (Exception e ) {
-      
-                System.out.println(e.getMessage());
-      
-                return e.getMessage();
-      
-             }    
-      
-             return resultToDisplay;      
-     
-        }
-     
-        protected void onPostExecute(String result) {
-        	Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
-        	 
-        	  intent.putExtra("TEST", result);
-        	  
-        	  startActivity(intent);
-     
-        }
-
+	//API 
+	private static String Url = "http://www.indianmomsconnect.com/posts?count=2&context=default&pretty=true";
+	//JSON Node Names
+	private static final String Node_Posts = "posts";
+	private static final String Node_Title = "title";
+	private static final String Node_Excerpt = "excerpt";
+	JSONArray posts = null;
+	ArrayList<HashMap<String,String>> postLists;
+	IMCShortPost _post = new IMCShortPost();
+	
+	 @Override
+	    protected void onCreate(Bundle savedInstanceState) {
+	        super.onCreate(savedInstanceState);
+	        setContentView(R.layout.activity_main);
+	        postLists = new ArrayList<HashMap<String,String>>();
+	        //ListView lv = getListView();
+	       /* lv.setOnItemClickListener(new OnItemClickListener() {
+	        	@Override
+	        	public void onItemClick(AdapterView<?> parent, View view,int position, long id){
+	        		String title = ((TextView) view.findViewById(R.id.Title)).getText().toString();
+	        		String excerpt =((TextView) view.findViewById(R.id.Excerpt)).getText().toString();
+	        		Intent in = new Intent(getApplicationContext(),DisplayPostActivity.class);
+	        		in.putExtra(Node_Title, title);
+	        		in.putExtra(Node_Excerpt, excerpt);
+	        		startActivity(in);
+	        		
+	        	}
+	        });*/
+	        new CallAPI().execute(); 
+	    }
+	
+	
+	private class CallAPI extends AsyncTask<Void, Void, Void> {
 		@Override
-		protected String doInBackground(String... arg0) {
-			// TODO Auto-generated method stub
-			return null;
+		protected Void doInBackground(Void...arg0) {
+			try
+			{
+			URL url = new URL(Url);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            DefaultHttpClient httpClient = new DefaultHttpClient();
+            HttpEntity httpEntity = null;
+            HttpResponse httpResponse = null;
+            HttpGet httpGet = new HttpGet(Url);
+            httpResponse = httpClient.execute(httpGet);
+            httpEntity = httpResponse.getEntity();
+            String response = EntityUtils.toString(httpEntity);
+            
+            JSONObject jObj = new JSONObject(response);
+            
+            posts = jObj.getJSONArray(Node_Posts);
+            for (int i=0;i<posts.length();i++)
+            {
+            JSONObject singleObj = posts.getJSONObject(i);
+            _post.Title = singleObj.getString("title");
+            _post.Image = singleObj.getString("featured_image");
+            _post.Excerpt = singleObj.getString("Excerpt");
+            HashMap<String,String> post = new HashMap<String,String>();
+            post.put(Node_Title, _post.Title);
+            post.put(Node_Excerpt, _post.Excerpt);
+            postLists.add(post);
+            }
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				
+			}
+            return null;
+			
 		}
+        
+     
+        protected void onPostExecute(Void result) {
+        	super.onPostExecute(result);
+        	ListAdapter adapter = new SimpleAdapter(MainActivity.this,postLists,
+        			R.layout.list_item,new String[] {Node_Title,Node_Excerpt},new int[] {R.id.Title,R.id.Excerpt});
+        	setListAdapter(adapter);
+     
+        }
 
-		
         
     } // end CallAPI 
     
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
-        }
-    }
-    public void FetchIMCPosts(View view) {
-    	 
-        String domainName = "http://www.indianmomsconnect.com/"; 
-        new CallAPI().execute(domainName); 
- 
-    }
    
-    
-    
-   
-    
-    
 }
 
 

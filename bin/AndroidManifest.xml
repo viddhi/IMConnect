@@ -26,8 +26,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.imconnect.ResultActivity"
-            android:label="@string/title_activity_result" >
+            android:name="com.example.imconnect.DisplayPostActivity"
+            android:label="post" >
         </activity>
     </application>
 
