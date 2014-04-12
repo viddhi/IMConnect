@@ -19,17 +19,63 @@ import android.view.ViewGroup;
 import android.os.Build;
 
 public class MainActivity extends Activity {
+	
+	private class CallAPI extends AsyncTask<String, String, String> {
+		 protected String doInBackground(String domain) {
+     
+        
+            
+            String resultToDisplay = "";
+      
+            InputStream in = null;
+      
+            // HTTP Get
+            try {
+            	
+                URL url = new URL("https://public-api.wordpress.com/rest/v1/sites/" + domain + "/posts/");
+      
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+      
+                in = new BufferedInputStream(urlConnection.getInputStream());
+      
+             } catch (Exception e ) {
+      
+                System.out.println(e.getMessage());
+      
+                return e.getMessage();
+      
+             }    
+      
+             return resultToDisplay;      
+     
+        }
+     
+        protected void onPostExecute(String result) {
+        	Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
+        	 
+        	  intent.putExtra("TEST", result);
+        	  
+        	  startActivity(intent);
+     
+        }
+
+		@Override
+		protected String doInBackground(String... arg0) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		
+        
+    } // end CallAPI 
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
-        }
+        
     }
 
 
@@ -77,50 +123,7 @@ public class MainActivity extends Activity {
    
     
     
-   class CallAPI extends AsyncTask<String, String, String> {
-   	 
-        protected String doInBackground(String domain) {
-     
-        
-            
-            String resultToDisplay = "";
-      
-            InputStream in = null;
-      
-            // HTTP Get
-            try {
-            	
-                URL url = new URL("https://public-api.wordpress.com/rest/v1/sites/" + domain + "/posts/");
-      
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-      
-                in = new BufferedInputStream(urlConnection.getInputStream());
-      
-             } catch (Exception e ) {
-      
-                System.out.println(e.getMessage());
-      
-                return e.getMessage();
-      
-             }    
-      
-             return resultToDisplay;      
-     
-        }
-     
-        protected void onPostExecute(String result) {
-        	Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
-        	 
-        	  intent.putExtra("TEST", result);
-        	  
-        	  startActivity(intent);
-     
-        }
-
-		
-        
-    } // end CallAPI 
-    
+   
     
     
 }
