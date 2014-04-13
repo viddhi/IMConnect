@@ -33,7 +33,7 @@ import android.os.Build;
 public class MainActivity extends ListActivity {
 	
 	//API 
-	private static String Url = "http://www.indianmomsconnect.com/posts?count=2&context=default&pretty=true";
+	private static String Url = "https://public-api.wordpress.com/rest/v1/sites/www.indianmomsconnect.com/posts?count=1&context=default&pretty=true";
 	//JSON Node Names
 	private static final String Node_Posts = "posts";
 	private static final String Node_Title = "title";
@@ -75,6 +75,7 @@ public class MainActivity extends ListActivity {
             HttpEntity httpEntity = null;
             HttpResponse httpResponse = null;
             HttpGet httpGet = new HttpGet(Url);
+            
             httpResponse = httpClient.execute(httpGet);
             httpEntity = httpResponse.getEntity();
             String response = EntityUtils.toString(httpEntity);
