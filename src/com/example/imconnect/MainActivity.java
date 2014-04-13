@@ -33,7 +33,7 @@ import android.os.Build;
 public class MainActivity extends ListActivity {
 	
 	//API 
-	private static String Url = "https://public-api.wordpress.com/rest/v1/sites/www.indianmomsconnect.com/posts?count=1&context=default&pretty=true";
+	private static String Url = "https://public-api.wordpress.com/rest/v1/sites/www.indianmomsconnect.com/posts?number=2&context=default&pretty=true";
 	//JSON Node Names
 	private static final String Node_Posts = "posts";
 	private static final String Node_Title = "title";
@@ -88,7 +88,7 @@ public class MainActivity extends ListActivity {
             JSONObject singleObj = posts.getJSONObject(i);
             _post.Title = singleObj.getString("title");
             _post.Image = singleObj.getString("featured_image");
-            _post.Excerpt = singleObj.getString("Excerpt");
+            _post.Excerpt = singleObj.getString("excerpt");
             HashMap<String,String> post = new HashMap<String,String>();
             post.put(Node_Title, _post.Title);
             post.put(Node_Excerpt, _post.Excerpt);
