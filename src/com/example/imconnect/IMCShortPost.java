@@ -1,9 +1,13 @@
 package com.example.imconnect;
 
+import android.text.Spanned;
+
 public class IMCShortPost {
 	public String Title;
 	public String Image ;
-	public String Excerpt;
+	public Spanned Excerpt;
+	public String CommentCount;
+	public String LikeCount;
 	
 	public String getTitle(String _title)
 	{
@@ -16,14 +20,30 @@ public class IMCShortPost {
 	{
 		return _image;
 	}
+	public String getCommentCount(String _commentCount)
+	{
+			return _commentCount;
+	}
+	public void setCommentCount(String _commentCount)
+	{
+			this.CommentCount = _commentCount;
+	}
+	public String getlikeCount(String _likeCount)
+	{
+		return _likeCount;
+	}
+	public void setLikeCount(String _likeCount)
+	{
+		this.LikeCount = _likeCount;
+	}
 	public void setImage (String _image){
 		this.Image = _image;
 	}
-	public String getExcerpt(String _excerpt)
+	public Spanned getExcerpt(Spanned _excerpt)
 	{
 		return _excerpt;
 	}
-	public void setExcerpt (String _excerpt){
+	public void setExcerpt (Spanned _excerpt){
 		this.Excerpt = _excerpt;
 	}
 

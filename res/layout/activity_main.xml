@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
  
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
@@ -10,20 +10,36 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp" >
 
-    <ImageView
-        android:id="@+id/imageView1"
+    <TextView
+        android:id="@+id/HotOffTheOven"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/imcheader" 
-        android:contentDescription="@string/IMCHeader" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:fontFamily="Avenir"
+        android:text="@string/Tab1"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#FF6600"
+        android:typeface="normal" />
+
+    <TextView
+        android:id="@+id/ExploreImc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/HotOffTheOven"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="14dp"
+         android:fontFamily="Avenir"
+        android:text="@string/Tab2"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#FF6600"
+        android:typeface="normal" />
     
     <ListView 
         android:id = "@android:id/list"
         android:layout_width="fill_parent"
-    	android:layout_height="wrap_content" />
-         
-   
-    
-
+    	android:layout_height="wrap_content"
+    	android:layout_below="@+id/HotOffTheOven"
+    	 />
  
-</LinearLayout>
+</RelativeLayout>

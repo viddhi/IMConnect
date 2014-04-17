@@ -7,5 +7,7 @@
     <string name="title_activity_result">ResultActivity</string>
     <string name="button_submit">Fetch Post</string>
     <string name="IMCHeader">IMCImage</string>
+    <string name="Tab1">Hot off the oven!</string>
+    <string name="Tab2">Explore IMC</string>
 
 </resources>
