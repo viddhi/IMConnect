@@ -9,7 +9,7 @@
     android:padding="10dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp" >
-
+    
     <TextView
         android:id="@+id/HotOffTheOven"
         android:layout_width="wrap_content"
@@ -18,8 +18,9 @@
         android:layout_alignParentTop="true"
         android:fontFamily="Avenir"
         android:text="@string/Tab1"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#FF6600"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#FFF"
+        android:background="#FF6600"
         android:typeface="normal" />
 
     <TextView
@@ -31,9 +32,10 @@
         android:layout_marginRight="14dp"
          android:fontFamily="Avenir"
         android:text="@string/Tab2"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#FF6600"
         android:typeface="normal" />
+    
     
     <ListView 
         android:id = "@android:id/list"

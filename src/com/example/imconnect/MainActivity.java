@@ -34,7 +34,7 @@ import android.widget.SimpleAdapter;
 public class MainActivity extends ListActivity {
 	
 	//API 
-	private static String Url = "https://public-api.wordpress.com/rest/v1/sites/www.indianmomsconnect.com/posts?number=10&context=default&pretty=true";
+	private static String Url = "https://public-api.wordpress.com/rest/v1/sites/www.indianmomsconnect.com/posts?number=14&context=default&pretty=true";
 	//JSON Node Names
 	private static final String Node_Posts = "posts";
 	private static final String Node_Title = "title";
@@ -79,14 +79,18 @@ public class MainActivity extends ListActivity {
             for (int i=0;i<posts.length();i++)
             {
             JSONObject singleObj = posts.getJSONObject(i);
-            _post.Title = singleObj.getString(Node_Title);
+            String tempTitle = singleObj.getString(Node_Title);
+            tempTitle = URLDecoder.decode(tempTitle,"UTF-8");
+            tempTitle = tempTitle.replaceAll( "[\\u202C\\u202A]", "" );
+            _post.Title = Html.fromHtml(Html.fromHtml((String) tempTitle).toString());
+            
             _post.Image = singleObj.getString(Node_Image);
+            //Excerpt data cleaning
             String excerptData = singleObj.getString(Node_Excerpt);
-           
             excerptData = URLDecoder.decode(excerptData, "UTF-8");
             excerptData = excerptData.replaceAll( "[\\u202C\\u202A]", "" );
-            
-            _post.Excerpt = (Html.fromHtml(excerptData));
+            _post.Excerpt = Html.fromHtml(Html.fromHtml((String) excerptData).toString());
+            	
             _post.LikeCount = "Likes: " + singleObj.getString(Node_LikeCnt);
             _post.CommentCount = "Comments: " + singleObj.getString(Node_CommentCnt);
           
@@ -154,17 +158,25 @@ public class MainActivity extends ListActivity {
         			R.layout.list_item,
         			new String[] {Node_Title,Node_Excerpt,Node_Image,Node_LikeCnt,Node_CommentCnt},
         			new int[] {R.id.Title,R.id.Excerpt,R.id.FeaturedImage,R.id.LikeCnt,R.id.CmtCnt});
-        	/*for(int k=0;k <= postLists.size();k++)
-        	{
-        	View header = (View)getLayoutInflater().inflate(R.layout.list_item, null);
-        	ImageView ImgView = (ImageView)header . findViewById(R.id.FeaturedImage);
-        	HashMap<String,Object> post = new HashMap<String,Object>();
-        	post = postLists.get(k);
-        	Drawable d = Drawable.createFromPath(post.get("Node_Image").toString());
-        	ImgView.setBackground(d);
-        	
-        	}*/
         	setListAdapter(adapter);
+        	/*try
+        	{
+	        	for(int k=0;k <= postLists.size();k++)
+	        	{
+		        	View header = (View)getLayoutInflater().inflate(R.layout.list_item, null);
+		        	ImageView ImgView = (ImageView)header . findViewById(R.id.FeaturedImage);
+		        	HashMap<String,Object> post = new HashMap<String,Object>();
+		        	post = postLists.get(k);
+		        	Drawable d = Drawable.createFromPath(post.get("Node_Image").toString());
+		        	ImgView.setBackground(d);
+	        	
+	        	}
+        	
+        	}
+        	catch(Exception ex)
+        	{
+        		ex.printStackTrace();
+        	}*/
      
         }
 

@@ -3,17 +3,17 @@ package com.example.imconnect;
 import android.text.Spanned;
 
 public class IMCShortPost {
-	public String Title;
+	public Spanned Title;
 	public String Image ;
 	public Spanned Excerpt;
 	public String CommentCount;
 	public String LikeCount;
 	
-	public String getTitle(String _title)
+	public Spanned getTitle(Spanned _title)
 	{
 		return _title;
 	}
-	public void setTitle (String _title){
+	public void setTitle (Spanned _title){
 		this.Title = _title;
 	}
 	public String getImage(String _image)

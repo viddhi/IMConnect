@@ -19,7 +19,7 @@
         android:id="@+id/Title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         android:textColor="#66CC33" />
     
@@ -27,23 +27,25 @@
         android:id="@+id/Excerpt"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="12sp"   
+        android:textSize="14sp"   
         android:textColor="#000" />
     
-     <TextView
-        android:id="@+id/LikeCnt"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"   
+    <RelativeLayout 
+    android:layout_width="fill_parent" android:layout_height="fill_parent" 
+    android:gravity="fill">
+     <TextView android:id="@+id/CmtCnt"
+        android:layout_width="60dp" android:layout_height="wrap_content"
+        android:singleLine="true" android:layout_alignParentRight="true"  android:textSize="12sp"   
         android:textColor="#FF6600" />
-     
-      <TextView
-        android:id="@+id/CmtCnt"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="14dp"
-        android:textSize="12sp"   
-        android:textColor="#FF6600" />
+    <TextView android:id="@+id/LikeCnt"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_marginRight="60dp" android:layout_toLeftOf="@id/CmtCnt"
+        android:singleLine="true" android:ellipsize="end"  android:textSize="12sp"   
+        android:textColor="#FF6600"  />   
+       
+</RelativeLayout>
+    
+    
     
 
  
