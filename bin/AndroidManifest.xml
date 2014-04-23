@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.imconnect.DisplayPostActivity"
+            android:name="com.example.imconnect.SinglePostActivity"
             android:label="post" >
         </activity>
     </application>

@@ -4,11 +4,11 @@ package com.example.imconnect;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import com.example.imconnect.R;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -16,16 +16,18 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
+import android.annotation.SuppressLint;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.SimpleAdapter;
+import android.widget.*;
+import android.widget.AdapterView.OnItemClickListener;
+
+
 
 
 
@@ -42,6 +44,8 @@ public class MainActivity extends ListActivity {
 	private static final String Node_Image = "featured_image";
 	private static final String Node_CommentCnt = "comment_count";
 	private static final String Node_LikeCnt = "like_count";
+	private static final String Node_ID = "ID";
+	private static final String Node_Date = "date";
 	
 	JSONArray posts = null;
 	//Array list of post lists
@@ -53,8 +57,25 @@ public class MainActivity extends ListActivity {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.activity_main);
 	        postLists = new ArrayList<HashMap<String,Object>>();
+	        ListView lv = getListView();
+		       lv.setOnItemClickListener(new OnItemClickListener() {
+		        	@SuppressLint("SimpleDateFormat")
+					@Override
+		        	public void onItemClick(AdapterView<?> parent, View view,int position, long id){
+		        		String PostID = ((TextView) view.findViewById(R.id.ID)).getText().toString();
+		        		String Title = ((TextView) view.findViewById(R.id.Title)).getText().toString();
+		        		String DatePosted = ((TextView) view.findViewById(R.id.DatePosted)).getText().toString();
+		        		Intent in = new Intent(getApplicationContext(),SinglePostActivity.class);
+		        		in.putExtra(Node_ID, PostID);
+		        		in.putExtra(Node_Title, Title);
+		        		in.putExtra(Node_Date, DatePosted);
+		        		startActivity(in);
+		        		
+		        	}
+		        	
+		        });
 	        new CallAPI().execute(); 
-	       // populateListView();
+	      
 	    }
 	
 	
@@ -79,20 +100,24 @@ public class MainActivity extends ListActivity {
             for (int i=0;i<posts.length();i++)
             {
             JSONObject singleObj = posts.getJSONObject(i);
+            //Title Data Cleaning
             String tempTitle = singleObj.getString(Node_Title);
             tempTitle = URLDecoder.decode(tempTitle,"UTF-8");
             tempTitle = tempTitle.replaceAll( "[\\u202C\\u202A]", "" );
             _post.Title = Html.fromHtml(Html.fromHtml((String) tempTitle).toString());
             
-            _post.Image = singleObj.getString(Node_Image);
+           
             //Excerpt data cleaning
             String excerptData = singleObj.getString(Node_Excerpt);
             excerptData = URLDecoder.decode(excerptData, "UTF-8");
             excerptData = excerptData.replaceAll( "[\\u202C\\u202A]", "" );
             _post.Excerpt = Html.fromHtml(Html.fromHtml((String) excerptData).toString());
-            	
+            _post.Image = singleObj.getString(Node_Image);
             _post.LikeCount = "Likes: " + singleObj.getString(Node_LikeCnt);
+            _post.PostID = singleObj.getString(Node_ID);
             _post.CommentCount = "Comments: " + singleObj.getString(Node_CommentCnt);
+            _post.dateposted = singleObj.getString(Node_Date);
+           
           
             HashMap<String,Object> post = new HashMap<String,Object>();
             post.put(Node_Title, _post.Title);
@@ -100,6 +125,9 @@ public class MainActivity extends ListActivity {
             post.put(Node_Image, _post.Image);
             post.put(Node_LikeCnt, _post.LikeCount);
             post.put(Node_CommentCnt, _post.CommentCount);
+            post.put(Node_ID, _post.PostID);
+            post.put(Node_Date, _post.dateposted);
+           
             postLists.add(post);
             }
 			}
@@ -112,52 +140,13 @@ public class MainActivity extends ListActivity {
 			
 		}
         
-		/*private void populateListView() {
-			ArrayAdapter<IMCShortPost> adapter = new MyListAdapter();
-			ListView lv = (ListView) findViewById(R.layout.list_item);
-			lv.setAdapter(adapter);
-		}*/
-		/*private class MyListAdapter extends ArrayAdapter<IMCShortPost> {
-			public MyListAdapter() {
-				super(MainActivity.this, R.layout.list_item, postLists);
-			}
-
-			@Override
-			public View getView(int position, View convertView, ViewGroup parent) {
-				// Make sure we have a view to work with (may have been given null)
-				View itemView = convertView;
-				if (itemView == null) {
-					itemView = getLayoutInflater().inflate(R.layout.item_view, parent, false);
-				}
-				
-				// Find the car to work with.
-				IMCShortPost currentPost = _postLists.get(position);
-				
-				// Fill the view
-				ImageView imageView = (ImageView)itemView.findViewById(R.id.item_icon);
-				imageView.setImageResource(currentCar.getIconID());
-				
-				// Make:
-				TextView makeText = (TextView) itemView.findViewById(R.id.item_txtMake);
-				makeText.setText(currentCar.getMake());
-
-				// Year:
-				TextView yearText = (TextView) itemView.findViewById(R.id.item_txtYear);
-				yearText.setText("" + currentCar.getYear());
-				
-				// Condition:
-				TextView condionText = (TextView) itemView.findViewById(R.id.item_txtCondition);
-				condionText.setText(currentCar.getCondition());
-
-				return itemView;
-			}				
-		}*/
+		
         protected void onPostExecute(Void result) {
         	super.onPostExecute(result);
         	ListAdapter adapter = new SimpleAdapter(MainActivity.this,postLists,
         			R.layout.list_item,
-        			new String[] {Node_Title,Node_Excerpt,Node_Image,Node_LikeCnt,Node_CommentCnt},
-        			new int[] {R.id.Title,R.id.Excerpt,R.id.FeaturedImage,R.id.LikeCnt,R.id.CmtCnt});
+        			new String[] {Node_Title,Node_Excerpt,Node_Image,Node_LikeCnt,Node_CommentCnt,Node_ID,Node_Date},
+        			new int[] {R.id.Title,R.id.Excerpt,R.id.FeaturedImage,R.id.LikeCnt,R.id.CmtCnt,R.id.ID,R.id.DatePosted});
         	setListAdapter(adapter);
         	/*try
         	{

@@ -1,5 +1,7 @@
 package com.example.imconnect;
 
+import java.util.Date;
+
 import android.text.Spanned;
 
 public class IMCShortPost {
@@ -8,6 +10,27 @@ public class IMCShortPost {
 	public Spanned Excerpt;
 	public String CommentCount;
 	public String LikeCount;
+	public String PostID;
+	public String dateposted;
+	
+	
+	public String getdatePosted(String _datePosted)
+	{
+		return _datePosted;
+	}
+	public void setdatePosted(String _datePosted)
+	{
+		this.dateposted = _datePosted;
+	}
+	
+	public String getPostID(String _postID)
+	{
+		return _postID;
+	}
+	public void setPostID(String _postID)
+	{
+		this.PostID = _postID;
+	}
 	
 	public Spanned getTitle(Spanned _title)
 	{
