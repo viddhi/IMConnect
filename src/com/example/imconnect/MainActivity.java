@@ -33,7 +33,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 
 
-public class MainActivity extends ListActivity {
+public class MainActivity extends ListActivity  {
 	
 	//API 
 	private static String Url = "https://public-api.wordpress.com/rest/v1/sites/www.indianmomsconnect.com/posts?number=14&context=default&pretty=true";
