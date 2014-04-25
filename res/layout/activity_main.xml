@@ -6,22 +6,19 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    
     android:padding="10dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp" >
-    
-    <TextView
-        android:id="@+id/HotOffTheOven"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:fontFamily="Avenir"
-        android:text="@string/Tab1"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#FFF"
-        android:background="#FF6600"
-        android:typeface="normal" />
+   <RelativeLayout
+    android:id="@+id/TopTab"    
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/rounded_rectangle"
+    android:padding="1dp"
+    android:paddingLeft="1dp"
+    android:paddingRight="1dp">  
 
     <TextView
         android:id="@+id/ExploreImc"
@@ -33,15 +30,30 @@
          android:fontFamily="Avenir"
         android:text="@string/Tab2"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#FF6600"
+        android:textColor="#FFF"
         android:typeface="normal" />
+    
+    <TextView
+        android:id="@+id/HotOffTheOven"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:fontFamily="Avenir"
+        android:text="@string/Tab1"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#FFF"
+        android:typeface="normal" />
+
+    
+   </RelativeLayout>  
     
     
     <ListView 
         android:id = "@android:id/list"
         android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
-    	android:layout_below="@+id/HotOffTheOven"
+    	android:layout_below="@+id/TopTab"
     	 />
  
 </RelativeLayout>
