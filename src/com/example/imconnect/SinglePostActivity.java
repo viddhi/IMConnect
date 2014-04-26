@@ -34,6 +34,7 @@ public class SinglePostActivity extends Activity {
        String Month = DatePosted.split("-")[1];
        String DatePart = DatePosted.split("-")[2];
        //Title cleanup
+       
        Title = Title.replace('-', ' ');
        
         Title = Title.toLowerCase().replace(' ', '-');
