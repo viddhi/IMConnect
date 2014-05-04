@@ -9,11 +9,11 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp" >
 
-    <ImageView
+    <TextView
         android:id="@+id/FeaturedImage"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_marginRight="6dip"  />
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
    
     <TextView
         android:id="@+id/Title"
@@ -33,15 +33,22 @@
     <TextView android:id="@+id/ID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        
-    android:visibility="gone"/>
+        android:visibility="gone"/>
     
     <TextView android:id="@+id/DatePosted"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        
-    android:visibility="gone"/>
+        android:visibility="gone"/>
     
+     <TextView android:id="@+id/Content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+     
+       <TextView android:id="@+id/Author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
     
     
     <RelativeLayout 

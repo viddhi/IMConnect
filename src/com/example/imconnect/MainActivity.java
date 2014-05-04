@@ -1,11 +1,8 @@
 package com.example.imconnect;
 
 
-import java.net.URI;
-import java.net.URL;
+
 import java.net.URLDecoder;
-import java.util.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import com.example.imconnect.R;
@@ -19,7 +16,6 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.ListActivity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
@@ -46,8 +42,11 @@ public class MainActivity extends ListActivity  {
 	private static final String Node_LikeCnt = "like_count";
 	private static final String Node_ID = "ID";
 	private static final String Node_Date = "date";
+	private static final String Node_Content = "content";
+	private static final String Node_Author = "author";
 	
 	JSONArray posts = null;
+	JSONArray authorDetails = null;
 	//Array list of post lists
 	ArrayList<HashMap<String,Object>> postLists;
 	IMCShortPost _post = new IMCShortPost();
@@ -65,10 +64,16 @@ public class MainActivity extends ListActivity  {
 		        		String PostID = ((TextView) view.findViewById(R.id.ID)).getText().toString();
 		        		String Title = ((TextView) view.findViewById(R.id.Title)).getText().toString();
 		        		String DatePosted = ((TextView) view.findViewById(R.id.DatePosted)).getText().toString();
+		        		String Content = ((TextView)view.findViewById(R.id.Content)).getText().toString();
+		        		String Author = ((TextView)view.findViewById(R.id.Author)).getText().toString();
+		        		String Image = ((TextView)view.findViewById(R.id.FeaturedImage)).getText().toString();
 		        		Intent in = new Intent(getApplicationContext(),SinglePostActivity.class);
 		        		in.putExtra(Node_ID, PostID);
 		        		in.putExtra(Node_Title, Title);
 		        		in.putExtra(Node_Date, DatePosted);
+		        		in.putExtra(Node_Content, Content);
+		        		in.putExtra(Node_Author, Author);
+		        		in.putExtra(Node_Image, Image);
 		        		startActivity(in);
 		        		
 		        	}
@@ -112,11 +117,16 @@ public class MainActivity extends ListActivity  {
             excerptData = URLDecoder.decode(excerptData, "UTF-8");
             excerptData = excerptData.replaceAll( "[\\u202C\\u202A]", "" );
             _post.Excerpt = Html.fromHtml(Html.fromHtml((String) excerptData).toString());
-            _post.Image = singleObj.getString(Node_Image);
+            _post.Image = singleObj.getString(Node_Image).toString();
             _post.LikeCount = "Likes: " + singleObj.getString(Node_LikeCnt);
             _post.PostID = singleObj.getString(Node_ID);
             _post.CommentCount = "Comments: " + singleObj.getString(Node_CommentCnt);
             _post.dateposted = singleObj.getString(Node_Date);
+            _post.Content = singleObj.getString(Node_Content);
+            JSONObject authorObj  = singleObj.getJSONObject(Node_Author);
+            
+            //JSONObject authorObj = authorDetails.getJSONObject(0);
+            _post.Author = authorObj.getString("name").toString();
            
           
             HashMap<String,Object> post = new HashMap<String,Object>();
@@ -127,6 +137,8 @@ public class MainActivity extends ListActivity  {
             post.put(Node_CommentCnt, _post.CommentCount);
             post.put(Node_ID, _post.PostID);
             post.put(Node_Date, _post.dateposted);
+            post.put(Node_Content, _post.Content);
+            post.put(Node_Author,_post.Author);
            
             postLists.add(post);
             }
@@ -145,8 +157,8 @@ public class MainActivity extends ListActivity  {
         	super.onPostExecute(result);
         	ListAdapter adapter = new SimpleAdapter(MainActivity.this,postLists,
         			R.layout.list_item,
-        			new String[] {Node_Title,Node_Excerpt,Node_Image,Node_LikeCnt,Node_CommentCnt,Node_ID,Node_Date},
-        			new int[] {R.id.Title,R.id.Excerpt,R.id.FeaturedImage,R.id.LikeCnt,R.id.CmtCnt,R.id.ID,R.id.DatePosted});
+        			new String[] {Node_Title,Node_Excerpt,Node_Image,Node_LikeCnt,Node_CommentCnt,Node_ID,Node_Date,Node_Content,Node_Author},
+        			new int[] {R.id.Title,R.id.Excerpt,R.id.FeaturedImage,R.id.LikeCnt,R.id.CmtCnt,R.id.ID,R.id.DatePosted,R.id.Content,R.id.Author});
         	setListAdapter(adapter);
         	/*try
         	{

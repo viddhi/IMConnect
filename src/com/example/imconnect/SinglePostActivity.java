@@ -17,6 +17,9 @@ public class SinglePostActivity extends Activity {
 	
 	private static final String Node_Title = "title";
 	private static final String Node_Date = "date";
+	private static final String Node_Content = "content";
+	private static final String Node_Image = "featured_image";
+	private static final String Node_Author = "author";
 
 	
 	@SuppressLint("DefaultLocale")
@@ -28,18 +31,24 @@ public class SinglePostActivity extends Activity {
        
         String Title = in.getStringExtra(Node_Title);
         String DatePosted = in.getStringExtra(Node_Date);
+        String Content = in.getStringExtra(Node_Content);
+        String Image = in.getStringExtra(Node_Image);
+        //Image = Image.replace('\', ' ');
+        String Author = in.getStringExtra(Node_Author);
+        
        //Manipulating date using string as Calendar was giving me lot of issues.
         DatePosted = DatePosted.substring(0, 10);
-       String Year = DatePosted.split("-")[0];
-       String Month = DatePosted.split("-")[1];
-       String DatePart = DatePosted.split("-")[2];
-       //Title cleanup
-       
-       Title = Title.replace('-', ' ');
-       
-        Title = Title.toLowerCase().replace(' ', '-');
+       //String Year = DatePosted.split("-")[0];
+       //String Month = DatePosted.split("-")[1];
+       //String DatePart = DatePosted.split("-")[2];
+       String Html = "<html><head><meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1'>"+
+    		   		"</head><body><h2 style='color:#66CC33'>"+ Title + "</h2><div style='float:left;color:#868686;font-style:italic;'>By:&nbsp;&nbsp;" + Author + 
+    		   		"</div><div style='float:left;margin-left:50;color:#868686;font-style:italic;'>Date:&nbsp;&nbsp; " + DatePosted + "</div><br><br><a href='" + Image + "'> "+
+    		   		"<img src='" + Image + "' align='center' size='medium' width='300' height='300'/></a><p>" + Content + 
+    		   		"</p></body></html>";
+    		   		
         WebView myWebView = (WebView) findViewById(R.id.SinglePostView);
-        myWebView.loadUrl("http://www.indianmomsconnect.com/" + Year + "/" + Month + "/" + DatePart + "/" + Title + "/");
+        myWebView.loadData(Html, "text/html", null);
        
     }
 }
