@@ -3,9 +3,13 @@ package com.example.imconnect;
 
 
 import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+
 import com.example.imconnect.R;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -13,12 +17,16 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import android.annotation.SuppressLint;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
@@ -54,6 +62,17 @@ public class MainActivity extends ListActivity  {
 	 @Override
 	    protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
+	        
+	        //Shared preference
+	        SharedPreferences prefs = this.getSharedPreferences("com.example.imconnect", Context.MODE_PRIVATE);
+	        String dateTimeKey = "com.example.imconnect.datetime";
+	     // use a default value using new Date()
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	        Calendar cal = Calendar.getInstance();
+	        System.out.println();
+	        prefs.edit().putString(dateTimeKey, dateFormat.format(cal.getTime())).commit();
+	      
+	        
 	        setContentView(R.layout.activity_main);
 	        postLists = new ArrayList<HashMap<String,Object>>();
 	        ListView lv = getListView();

@@ -8,5 +8,6 @@
     <string name="IMCHeader">IMCImage</string>
     <string name="Tab1">Hot off the oven!</string>
     <string name="Tab2">Explore IMC</string>
-
+	<string name="Previous">>>Previous</string>
+	<string name="Share">Share</string>
 </resources>

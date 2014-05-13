@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.WebView;
 
 
@@ -51,4 +52,14 @@ public class SinglePostActivity extends Activity {
         myWebView.loadData(Html, "text/html", null);
        
     }
+
+	public void GoBack(View view) {
+		WebView myWebView = (WebView) findViewById(R.id.SinglePostView);
+		 if(myWebView.canGoBack()){
+			 myWebView.goBack();
+         }else{
+             finish();
+	 }
+	
+	} 
 }

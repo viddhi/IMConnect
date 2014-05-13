@@ -1,8 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WebView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"    
+    android:padding="10dp"
+    android:background="@drawable/rounded_rectangle"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+<Button
+    android:id="@+id/btnPrev"
+     android:layout_height="wrap_content"
+     android:layout_width="wrap_content"
+     android:layout_gravity="right"
+     android:text="@string/Previous"
+     
+     android:onClick="GoBack" />
+<WebView 
     android:layout_width="match_parent"
     android:layout_height="match_parent" 
+    android:layout_below="@+id/btnPrev"
+    
     android:id="@+id/SinglePostView" >
+</WebView>
+
+<!-- <LinearLayout -->
+<!--     android:orientation="horizontal" -->
+<!--     android:id="@+id/buttons" -->
+<!--     android:layout_alignParentBottom="true" -->
+<!--     android:layout_width="fill_parent" -->
+<!--     android:layout_height="wrap_content" > -->
+
+<!--     <Button android:text="@string/Share" -->
+<!--         android:id="@+id/btnBrowse" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:layout_weight="1.0" /> -->
+
     
 
-</WebView>
+<!-- </LinearLayout>  -->
+</RelativeLayout>
