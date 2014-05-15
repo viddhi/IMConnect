@@ -10,6 +10,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" >
     </uses-permission>
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
 
     <application
         android:allowBackup="true"
@@ -28,6 +29,7 @@
             android:name="com.example.imconnect.SinglePostActivity"
             android:label="post" >
         </activity>
+        <receiver android:name=".AlarmReciever"/> 
     </application>
 
 </manifest>

@@ -6,7 +6,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
-
+import android.os.StrictMode;
 
 import com.example.imconnect.ConsUtilities;
 
@@ -17,10 +17,13 @@ public class ServerUtility {
 		int NumOfPostsFound =0;
 		try
 		{
+			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		    StrictMode.setThreadPolicy(policy);
 		 DefaultHttpClient httpClient = new DefaultHttpClient();
          HttpEntity httpEntity = null;
          HttpResponse httpResponse = null;
-         HttpGet httpGet = new HttpGet(ConsUtilities.getNumberOfPosts);
+         String Url = String.format(ConsUtilities.getNumberOfPosts, PrevCheckedDate.substring(0, 10));
+         HttpGet httpGet = new HttpGet(Url);
          
          httpResponse = httpClient.execute(httpGet);
          httpEntity = httpResponse.getEntity();
